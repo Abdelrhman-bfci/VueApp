@@ -47,7 +47,7 @@ export default new Vuex.Store({
         axios
             .post("https://auston.fekracomputers.net/api/users", null, {
               headers:{
-                Authorization:"Bearer "+ state.token
+                Authorization:"Bearer "+ payload.token
               }
             })
             .then(res => {

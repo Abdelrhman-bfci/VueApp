@@ -45,6 +45,24 @@
                                         <v-text-field v-model="editedItem.email" label="Email"></v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="6" md="4">
+                                        <v-text-field
+                                                label=" Password"
+                                                :append-icon="value ? 'mdi-eye' : 'mdi-eye-off'"
+                                                @click:append="() => (value = !value)"
+                                                :type="value ? 'password' : 'text'"
+                                                v-model="editedItem.password"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="6" md="4">
+                                        <v-text-field
+                                                label="Confirm Password"
+                                                :append-icon="value ? 'mdi-eye' : 'mdi-eye-off'"
+                                                @click:append="() => (value = !value)"
+                                                :type="value ? 'password' : 'text'"
+                                                v-model="editedItem.confirm_password"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="6" md="4">
                                         <v-text-field v-model="editedItem.mobile" label="Mobile"></v-text-field>
                                     </v-col>
                                 </v-row>
@@ -99,6 +117,7 @@
                 { text: 'Actions', value: 'actions', sortable: false },
             ],
             search: '',
+            value:false,
             desserts: [],
             editedIndex: -1,
             editedItem: {
@@ -106,12 +125,16 @@
                 last_name: '',
                 email: '',
                 mobile: '',
+                password: '',
+                confirm_password: '',
             },
             defaultItem: {
                 first_name: '',
                 last_name: '',
                 email: '',
                 mobile: '',
+                password: '',
+                confirm_password: '',
             },
         }),
 
@@ -169,6 +192,18 @@
                 if (this.editedIndex > -1) {
                     Object.assign(this.desserts[this.editedIndex], this.editedItem)
                 } else {
+                    //addUser
+                    this.$store
+                        .dispatch("addUser", {
+                            user:this.editedItem,
+                            token:this.$store.state.token
+                        })
+                        .then(res => {
+                            this.desserts = res.data.users;
+                        })
+                        .catch(err => {
+                            console.log(err.message);
+                        });
                     this.desserts.push(this.editedItem)
                 }
                 this.close()

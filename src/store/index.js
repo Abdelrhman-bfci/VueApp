@@ -58,6 +58,29 @@ export default new Vuex.Store({
             });
       });
     },
+    addUser({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios
+            .put("https://auston.fekracomputers.net/api/user/add", {
+              email:payload.user.email,
+              password:payload.user.password,
+              confirm_password:payload.user.confirm_password,
+              first_name:payload.user.first_name,
+              last_name:payload.user.last_name,
+              mobile:payload.user.mobile,
+            }, {
+              headers:{
+                Authorization:"Bearer "+ payload.token
+              }
+            })
+            .then(res => {
+              resolve(res);
+            })
+            .catch(err => {
+              reject(err);
+            });
+      });
+    },
     // performLogoutAction({ commit, state }) {
     //   return new Promise((resolve, reject) => {
     //     axios

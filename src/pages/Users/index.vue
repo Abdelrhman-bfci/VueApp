@@ -6,8 +6,8 @@
       >
         <md-card>
           <md-card-header data-background-color="green">
-            <h4 class="title">Simple Table</h4>
-            <p class="category">Here is a subtitle for this table</p>
+            <h4 class="title"> List of Users </h4>
+            <p class="category">Users in the System</p>
           </md-card-header>
           <md-card-content>
             <v-app>

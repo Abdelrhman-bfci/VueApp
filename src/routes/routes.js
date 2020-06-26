@@ -39,7 +39,7 @@ const routes = [
                   next('/login')
                 })
                 .catch(err => {
-                  console.log(err.message);
+                  //console.log(err);
                 });
           }
           next();

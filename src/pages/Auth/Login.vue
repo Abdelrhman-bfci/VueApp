@@ -14,26 +14,27 @@
                 <h6 class="category text-gray">ASUTON</h6>
                 <h4 class="card-title">ASUTON LOGIN FORM</h4>
                 <v-form>
-                                    <v-text-field
-                                      label="email"
-                                      name="email"
-                                      prepend-icon="mdi-account"
-                                      type="email"
-                                      class="input-group--focused"
-                                      v-model="email"
-                                    ></v-text-field>
-                                    <v-text-field
-                                      v-model="password"
-                                      :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
-                                      :type="show2 ? 'text' : 'password'"
-                                      name="input-10-2"
-                                      label="Password"
-                                      class="input-group--focused"
-                                      prepend-icon="mdi-lock"
-                                      @click:append="show2 = !show2"
-                                    ></v-text-field>
-                                  </v-form>
-                <md-button class="md-round md-success" @click="login">Login</md-button>
+                  <v-text-field
+                          label="email"
+                          name="email"
+                          prepend-icon="mdi-account"
+                          type="email"
+                          class="input-group--focused"
+                          v-model="email"
+                  ></v-text-field>
+                  <v-text-field
+                          v-model="password"
+                          :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+                          :type="show2 ? 'text' : 'password'"
+                          name="input-10-2"
+                          label="Password"
+                          class="input-group--focused"
+                          prepend-icon="mdi-lock"
+                          @click:append="show2 = !show2"
+                  ></v-text-field>
+                </v-form>
+                <v-btn  color="primary" @click="login" :rounded="true" :loading="is_load">Login</v-btn>
+<!--                <md-button class="md-round md-success" @click="login">Login</md-button>-->
               </md-card-content>
             </md-card>
           </v-col>
@@ -44,39 +45,49 @@
 </template>
 
 <script>
-export default {
-  props: {
-    cardUserImage: {
-      type: String,
-      default: require("@/assets/img/faces/marc.jpg")
+  export default {
+    props: {
+      cardUserImage: {
+        type: String,
+        default: require("@/assets/img/faces/marc.jpg")
+      }
+    },
+    data() {
+      return {
+        show2: false,
+        email: "",
+        password: "",
+        is_load: false
+      };
+    },
+    methods: {
+      login: function() {
+        this.is_load = true;
+        this.$store
+        .dispatch("performLoginAction", {
+          email: this.email,
+          password: this.password
+        })
+        .then(res => {
+          this.$router.push("/dashboard");
+          this.is_load = false;
+        })
+        .catch(err => {
+          this.is_load = false;
+          this.$notify({
+            message:' Invalid User name Or Password',
+            icon: "add_alert",
+            horizontalAlign: 'center',
+            verticalAlign: 'top',
+            type: 'danger'
+          });
+        });
+      }
+    },
+    beforeCreate() {
+      this.$store.state.loggedIn ? this.$router.push('/dashboard') : false ;
     }
-  },
-  data() {
-    return {
-      show2: false,
-      email: "",
-      password: ""
-    };
-  },
-  methods: {
-    login: function() {
-      this.$store
-              .dispatch("performLoginAction", {
-                email: this.email,
-                password: this.password
-              })
-              .then(res => {
-                this.$router.push("/dashboard");
-              })
-              .catch(err => {
-                console.log(err.message);
-              });
-    }
-  },
-  beforeCreate() {
-    this.$store.state.loggedIn ? this.$router.push('/dashboard') : false ;
-  }
-};
+  };
 </script>
 
 <style>
@@ -91,3 +102,4 @@ export default {
     position: relative;
   }
 </style>
+

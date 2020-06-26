@@ -81,25 +81,27 @@ export default new Vuex.Store({
             });
       });
     },
-    // performLogoutAction({ commit, state }) {
-    //   return new Promise((resolve, reject) => {
-    //     axios
-    //         .post("http://localhost:8000/api/auth/logout", {
-    //           token: state.token
-    //         })
-    //
-    //         .then(res => {
-    //           commit("SET_token", null);
-    //
-    //           commit("SET_loggedIn", false);
-    //           commit("SET_user", null);
-    //           resolve(res);
-    //         })
-    //         .catch(err => {
-    //           reject(err);
-    //         });
-    //   });
-    // },
+    Logout ({ commit } , payload) {
+      return new Promise((resolve, reject) => {
+        axios
+            .post("https://auston.fekracomputers.net/api/logout", null,
+                {
+                    headers:{
+                        Authorization:"Bearer "+ payload.token
+                    }
+                })
+            .then(res => {
+              commit("SET_token", null);
+
+              commit("SET_loggedIn", false);
+              commit("SET_user", null);
+              resolve(res);
+            })
+            .catch(err => {
+              reject(err);
+            });
+      });
+    },
     // updateUserProfileAction({ commit, state }, payload) {
     //   return new Promise((resolve, reject) => {
     //     axios

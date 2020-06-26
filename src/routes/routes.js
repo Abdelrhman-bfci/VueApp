@@ -11,6 +11,8 @@ import UpgradeToPRO from "@/pages/UpgradeToPRO.vue";
 import Users from "@/pages/Users/index.vue";
 import Login from "../pages/Auth/Login.vue";
 import LoginLayout from "../pages/Layout/Loginlayout";
+import store from "../store/index";
+
 
 const routes = [
   {
@@ -21,7 +23,27 @@ const routes = [
       {
         path: "login",
         name: "Login",
-        component: Login
+        component: Login,
+      },
+      {
+        path: "logout",
+        name: "logout",
+        component: Login,
+        beforeEnter: (to , from , next)=>{
+          if (store.state.token) {
+            store
+                .dispatch("Logout", {
+                  token: store.state.token
+                })
+                .then(res => {
+                  next('/login')
+                })
+                .catch(err => {
+                  console.log(err.message);
+                });
+          }
+          next();
+        }
       }
     ]
   },

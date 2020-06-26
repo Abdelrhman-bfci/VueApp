@@ -1,8 +1,10 @@
 <template>
+
   <div class="wrapper">
     <notifications></notifications>
     <div>
       <LoginContent> </LoginContent>
+
       <!--            <content-footer></content-footer>-->
     </div>
   </div>
@@ -18,7 +20,7 @@ export default {
   data() {
     return {
       sidebarBackground: "green",
-      sidebarBackgroundImage: require("@/assets/img/sidebar-2.jpg")
+     sidebarBackgroundImage: require("@/assets/img/sidebar-2.jpg")
     };
   }
 };
